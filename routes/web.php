@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use App\Events\GetRequestEvent;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +15,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
-    return view('welcome');
+    $cachedUsers = Redis::get('users');
+    //$cachedUsers = User::all();
+    $time_end = microtime(true);
+    if (isset($cachedUsers)) {
+        $users = json_decode($cachedUsers);
+    } else {
+        $users = User::all();
+        $cachedUsers = Redis::set('users', json_decode($users));
+    }
+    return view('welcome', compact('users'));
 });
 Route::get('/trigger/{data}', function ($data) {
     echo "<p>You have sent $data.</p>";

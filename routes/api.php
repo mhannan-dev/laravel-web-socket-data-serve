@@ -2,9 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Events\TestRequestEvent;
+use App\Events\GetRequestEvent;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/trigger/{data}', function ($data) {
-    $data = User::get();
-    event(new TestRequestEvent($data));
+    $data = User::all();
+    event(new GetRequestEvent($data));
 });
 
