@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Events;
-
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -21,8 +18,7 @@ class GetRequestEvent implements ShouldBroadcast
      */
     public function __construct($data)
     {
-        $this->message = $data;
-        echo "<p>GetRequestEvent('$data') object has been created.</p>";
+        $this->data = $data;
     }
 
     /**
@@ -33,5 +29,14 @@ class GetRequestEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('EventTriggered');
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'created_at' => $this->user->created_at->toFormattedDateString(),
+        ];
     }
 }

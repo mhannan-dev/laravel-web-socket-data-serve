@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Events\GetRequestEvent;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,8 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/trigger/{data}', function ($data) {
-    $data = User::all();
-    event(new GetRequestEvent($data));
+Route::get('/trigger/{data}', function () {
+    $cachedUsers = Redis::get('users');
+    if (isset($cachedUsers)) {
+        $users = json_decode($cachedUsers);
+        event(new GetRequestEvent($users));
+    } else {
+        $users = User::all();
+        $cachedUsers = Redis::set('users', json_decode($users));
+    }
+    event(new GetRequestEvent($cachedUsers));
 });
+
 

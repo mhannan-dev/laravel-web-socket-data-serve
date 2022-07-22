@@ -13,19 +13,21 @@
 <body>
     <div class="container">
         <div class="row d-flex justify-content-center mt-2">
-            
+
             <div class="col-md-8">
                 <table class="table table-bordered border-primary">
                     <thead>
                         <tr>
+                            <th>SL</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Created At</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($users as $key => $user)
                         <tr>
+                            <td>{{ ++$key }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ date('d-m-Y', strtotime($user->created_at)) }}</td>
