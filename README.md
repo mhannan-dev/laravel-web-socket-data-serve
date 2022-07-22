@@ -1,3 +1,3 @@
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **git clone https://github.com/mhannan-dev/laravel-web-socket-data-serve.git **
+- **cd laravel-web-socket-data-serve **
+- **composer update**
