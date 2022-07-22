@@ -1,0 +1,4 @@
+Api data url - http://localhost:8000/api/trigger/data
+
+Check web socket effect url - http://localhost:8000/laravel-websockets
+
