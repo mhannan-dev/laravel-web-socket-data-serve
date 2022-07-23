@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Events;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\Models\User;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class GetRequestEvent implements ShouldBroadcast
 {
+    public $data;
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
     /**
      * Create a new event instance.
      *
@@ -33,10 +34,7 @@ class GetRequestEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return [
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-            'created_at' => $this->user->created_at->toFormattedDateString(),
-        ];
+        dd($this->data['name']);
+        return response()->json($this->data, 200);
     }
 }
